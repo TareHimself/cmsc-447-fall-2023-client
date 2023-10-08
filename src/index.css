@@ -11,3 +11,38 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+section {
+  height: 100vh;
+  width: 100vw;
+}
+
+
+.nav {
+  display: flex;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, 0);
+  width: 400px;
+  height: 70px;
+  background-color: bisque;
+}
+
+.nav a {
+  flex: 1;
+  display: flex;
+}
+
+.nav div {
+  flex: 1;
+}
+
+#root {
+  max-height: 100vh;
+}
+
+.page {
+  max-height: 100vh;
+  overflow: scroll;
+}
