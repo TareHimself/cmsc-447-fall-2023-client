@@ -6,9 +6,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: absolute;
+    box-sizing: border-box;
 }
 
-.logo-container{
+.logo-container {
     margin-left: 80px;
 }
 

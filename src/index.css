@@ -40,9 +40,12 @@ section {
 
 #root {
   max-height: 100vh;
+  overflow: hidden;
 }
 
 .page {
+  margin-top: 50px;
   max-height: 100vh;
   overflow: scroll;
+  box-sizing: border-box;
 }
