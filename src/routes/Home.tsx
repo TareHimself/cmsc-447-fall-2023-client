@@ -26,13 +26,26 @@ export default function Home() {
 					style={{
 						backgroundColor: 'red',
 					}}
-				></section>
+				>
+				
+				</section>
 				<section
 					id="about"
 					style={{
-						backgroundColor: 'blue',
+						margin: '20px',
+						border: '1px solid #FF6666',
+						backgroundColor: '#FFCCCC',
+						
 					}}
-				></section>
+				>
+					<h1 style={{margin: '70px', backgroundColor: '#FF6666', color: 'white', textAlign: 'center', padding: "6px 12px"}}> Upload File</h1>
+					<label style={{backgroundColor: '#FF6666', color: 'white'}}>
+						<input type="file" style={{display: "none"}} onChange={e => console.log(e.target.files)}/>
+						Select File
+					</label>
+					
+
+				</section>
 				<section
 					id="contact"
 					style={{
