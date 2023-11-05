@@ -12,7 +12,7 @@ export default function Home() {
 					},
 					{
 						label: 'Upload',
-						href: '#about',
+						href: '#upload',
 					},
 					{
 						label: 'Contact',
@@ -30,7 +30,7 @@ export default function Home() {
 				
 				</section>
 				<section
-					id="about"
+					id="upload"
 					style={{
 						margin: '20px',
 						border: '1px solid #FF6666',
