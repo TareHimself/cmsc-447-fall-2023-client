@@ -1,0 +1,20 @@
+
+.DownloadPage {
+    /* background-image: url('https://drive.google.com/file/d/1vozmVRHPic6kGCMIDyPweED3ShbpDeRd/view?usp=sharing'); */
+    background-color: rgb(92, 87, 87);
+    font-family: 'YourCustomFont', sans-serif;
+    color: #412e2e;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 28px;
+  }
+  
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  
