@@ -71,12 +71,16 @@ function UploadingFile() {
 
 function DisplayUploadedFileInfo({
 	info,
+	onUploadNew
 }: {
 	info: IFileUploadResponse | undefined;
+	onUploadNew: () => void;
 }) {
 	if (!info) {
 		return <></>;
 	}
+
+	const accessUrl = `${window.location.origin}/access/${info.id}`
 
 	return (
 		<div
@@ -99,11 +103,13 @@ function DisplayUploadedFileInfo({
 			</span>
 			
 			<button style={{ fontSize: 20 }} onClick={async () => {
-				await navigator.clipboard.writeText(`${window.location.origin}/access/${info.id}`)
+				await navigator.clipboard.writeText(accessUrl)
 				toast("Copied")
 			}}>Copy Url</button>
-			<button style={{ fontSize: 20 }}>Generate Qr Code</button>
-			<button style={{ fontSize: 20 }}>Upload Another File</button>
+			<button onClick={()=>{
+				window.open(`https://qr.oyintare.dev/500/ffffff/005959/${encodeURIComponent(accessUrl)}`,'_blank')
+			}} style={{ fontSize: 20 }}>Generate Qr Code</button>
+			<button onClick={onUploadNew} style={{ fontSize: 20 }}>Upload Another File</button>
 		</div>
 	);
 }
@@ -154,7 +160,6 @@ export default function Upload() {
 		setUploadState('/uploading');
 		const form = new FormData();
 		form.append('file', filePendingUpload);
-		console.log('Uploading file');
 		const response = await fetch(`${ServerUrl}/upload`, {
 			method: 'PUT',
 			body: form,
@@ -163,7 +168,9 @@ export default function Upload() {
 		);
 
 		if (response.error !== null) {
-			setUploadState('/uploadFail');
+			setUploadState('/beforeUpload');
+			toast.error("Upload Failed");
+			setFilePendingUpload(undefined)
 		} else {
 			setUploadedFileInfo(response.data);
 			setUploadState('/uploadSuccess');
@@ -189,7 +196,10 @@ export default function Upload() {
 				)}
 				{uploadState === uploadStates[2] && <UploadingFile />}
 				{uploadState === uploadStates[3] && (
-					<DisplayUploadedFileInfo info={uploadedFileInfo} />
+					<DisplayUploadedFileInfo info={uploadedFileInfo} onUploadNew={() => {
+						setUploadState('/none');
+						setFilePendingUpload(undefined);
+					}}/>
 				)}
 			</div>
 		</section>
