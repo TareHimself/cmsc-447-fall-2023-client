@@ -1,5 +1,6 @@
 import React from 'react';
 import Nav from '../components/Nav/Nav';
+import Upload from '../components/Nav/upload/Upload';
 
 export default function Home() {
 	return (
@@ -7,12 +8,12 @@ export default function Home() {
 			<Nav
 				links={[
 					{
-						label: 'Intro',
-						href: '#intro',
-					},
-					{
 						label: 'Upload',
 						href: '#upload',
+					},
+					{
+						label: 'Intro',
+						href: '#intro',
 					},
 					{
 						label: 'Contact',
@@ -21,6 +22,7 @@ export default function Home() {
 				]}
 			/>
 			<div className="page">
+				<Upload/>
 				<section
 					id="intro"
 					style={{
@@ -29,7 +31,7 @@ export default function Home() {
 				>
 				
 				</section>
-				<section
+				{/* <section
 					id="upload"
 					style={{
 						margin: '20px',
@@ -45,7 +47,7 @@ export default function Home() {
 					</label>
 					
 
-				</section>
+				</section> */}
 				<section
 					id="contact"
 					style={{
