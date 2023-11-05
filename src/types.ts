@@ -1,9 +1,9 @@
 
 export type IServerResponse<T> = {
     data: T
-    error: undefined
+    error: null
 } | {
-    data: undefined
+    data: null
     error: string
 }
 
@@ -15,4 +15,14 @@ export type IFileUploadResponse = {
     fileMime: string;
     fileName: string;
     fileSize: number;
+}
+
+export type IFileAccessResponse = {
+    filename: string
+    size: number
+    mime: string
+    views: number
+    downloads: number
+    expire_at: string
+    url: string
 }

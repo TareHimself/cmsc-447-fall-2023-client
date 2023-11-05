@@ -3,6 +3,8 @@ import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import './style.css';
 import { CircularProgress, Stack } from '@mui/material';
 import { IFileUploadResponse, IServerResponse } from '../../../types';
+import { ServerUrl } from '../../../globals';
+import toast from 'react-hot-toast';
 
 function UploadIntro({ uploadInputId }: { uploadInputId: string }) {
 	return (
@@ -96,7 +98,10 @@ function DisplayUploadedFileInfo({
 				</h2>
 			</span>
 			
-			<button style={{ fontSize: 20 }}>Copy Url</button>
+			<button style={{ fontSize: 20 }} onClick={async () => {
+				await navigator.clipboard.writeText(`${window.location.origin}/access/${info.id}`)
+				toast("Copied")
+			}}>Copy Url</button>
 			<button style={{ fontSize: 20 }}>Generate Qr Code</button>
 			<button style={{ fontSize: 20 }}>Upload Another File</button>
 		</div>
@@ -150,14 +155,14 @@ export default function Upload() {
 		const form = new FormData();
 		form.append('file', filePendingUpload);
 		console.log('Uploading file');
-		const response = await fetch('https://447-api.oyintare.dev/upload', {
+		const response = await fetch(`${ServerUrl}/upload`, {
 			method: 'PUT',
 			body: form,
 		}).then(
 			(c) => c.json() as Promise<IServerResponse<IFileUploadResponse>>
 		);
 
-		if (response.error != undefined) {
+		if (response.error !== null) {
 			setUploadState('/uploadFail');
 		} else {
 			setUploadedFileInfo(response.data);

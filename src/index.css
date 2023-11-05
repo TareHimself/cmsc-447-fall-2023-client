@@ -62,3 +62,30 @@ section {
   overflow-x: hidden;
   box-sizing: border-box;
 }
+
+
+button {
+  --foreground: black;
+  --background: white;
+  border: none;
+  background-color: var(--background);
+  color: var(--foreground);
+  padding: 5px 20px;
+  /* width: 200px;
+  height: 50px; */
+  border-radius: 20px;
+  font-size: 25px;
+  /* font-family: 'Nunito Sans', sans-serif; */
+  font-weight: bold;
+  transition: all ease-in-out 0.2s;
+}
+
+button:hover {
+  background-color: var(--foreground);
+  color: var(--background);
+}
+
+button:active {
+  background-color: var(--background);
+  color: var(--foreground);
+}

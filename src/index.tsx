@@ -3,12 +3,30 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Home from './routes/Home';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import Access from './routes/Access';
+
+const router = createBrowserRouter([
+	{
+		path: '/',
+		element: <Home />,
+	},
+	{
+		path: '/access/:infoId',
+		element: <Access />,
+	},
+]);
+
+// eslint-disable-next-line import/no-named-as-default-member
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
 );
+
 root.render(
 	<React.StrictMode>
-		<Home />
+		<RouterProvider router={router} />
+		<Toaster position="bottom-center" reverseOrder={false} />
 	</React.StrictMode>
 );
 
