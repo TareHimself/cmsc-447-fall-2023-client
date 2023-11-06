@@ -24,7 +24,7 @@ const Nav: React.FC<{ links: NavLink[] }> = ({ links }) => {
 	return (
 		<nav className={styles.navbar}>
 			<div className={styles['logo-container']}>
-				<span>Logo</span>
+				<a href='#'>FileCher</a>
 			</div>
 			<Links links={links} />
 		</nav>

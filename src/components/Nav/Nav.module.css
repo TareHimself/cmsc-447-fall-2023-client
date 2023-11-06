@@ -1,6 +1,7 @@
 .navbar {
     width: 100%;
     height: 50px;
+    max-width: 100%;
     background: #F7F7F7;
     border-bottom: 1px solid #555;
     display: flex;
@@ -8,10 +9,13 @@
     justify-content: space-between;
     position: absolute;
     box-sizing: border-box;
+    padding-left: 15%;
+    padding-right: 15%;
 }
 
 .logo-container {
-    margin-left: 80px;
+    margin-left: 1.5rem;
+    font-weight: bold;
 }
 
 .logo-container {
@@ -20,8 +24,17 @@
 }
 
 .links-container {
-    margin-right: 80px;
+    margin-right: 1.5rem;
+    gap: 2rem;
     display: flex;
-    width: 300px;
     justify-content: space-evenly;
+}
+
+.navbar a {
+    text-decoration: none;
+    color:#555;
+}
+
+.navbar a:hover {
+    color:orange;
 }
