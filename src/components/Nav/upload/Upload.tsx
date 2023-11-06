@@ -6,7 +6,15 @@ import { IFileUploadResponse, IServerResponse } from '../../../types';
 import { ServerUrl } from '../../../globals';
 import toast from 'react-hot-toast';
 
+<<<<<<< HEAD
 function UploadIntro({ uploadInputId }: { uploadInputId: string }) {
+=======
+
+
+
+function UploadIntro({ uploadInputId }: { uploadInputId: string }) {
+
+>>>>>>> js-Upload-Options-Component
 	return (
 		<button
 			onClick={() => {
@@ -15,15 +23,48 @@ function UploadIntro({ uploadInputId }: { uploadInputId: string }) {
 		>
 			Select File
 		</button>
+<<<<<<< HEAD
+=======
+		
+>>>>>>> js-Upload-Options-Component
 	);
 }
 
 function UploadFileOptions({
 	file,
 	startUpload,
+<<<<<<< HEAD
 }: {
 	file: File | undefined;
 	startUpload: () => void;
+=======
+	
+	password,
+	setPassword,
+	isPasswordEnabled,
+	setIsPasswordEnabled,
+
+	expirationTime,
+	setExpirationTime,
+	isExpirationEnabled,
+	setIsExpirationEnabled,
+}: {
+	file: File | undefined;
+	startUpload: () => void;
+
+	password:string;
+	setPassword: (password:string) => void;
+	isPasswordEnabled: boolean;
+	setIsPasswordEnabled: (isEnabled: boolean) => void;
+
+	expirationTime: number | null;
+	setExpirationTime: (time: number | null) => void;
+	isExpirationEnabled: boolean;
+	setIsExpirationEnabled: (isEnabled: boolean) => void;
+
+
+
+>>>>>>> js-Upload-Options-Component
 }) {
 	if (!file) {
 		return <></>;
@@ -38,10 +79,97 @@ function UploadFileOptions({
 			>
 				{file.name}
 			</h2>
+<<<<<<< HEAD
 			<div className="option"></div>
 			<button style={{ fontSize: 25 }} onClick={startUpload}>
 				Upload
 			</button>
+=======
+			
+			
+			<button style={{ fontSize: 25 }} onClick={startUpload}>
+				Upload
+			</button>
+
+			{/* PASSWORD OPTIONS ADDED BELOW*/}
+
+			<div className="option">
+				<div className='widget-container'>
+					<h2
+						style={{
+							color: 'white',
+							fontSize: 20,
+							marginTop: '20px',
+							// textAlign: 'justify',
+							verticalAlign: 'middle',
+							
+						}}
+					>
+						Enable Password:
+					</h2>
+
+					<label className="switch">
+
+						<input
+							
+							type="checkbox"
+							checked={isPasswordEnabled}
+							onChange={() => setIsPasswordEnabled(!isPasswordEnabled)}
+						/>
+						<span className="slider round"></span>
+
+					</label>
+				</div>
+
+			</div>
+			{isPasswordEnabled ? (
+				<div className="option">
+				<input
+					type="password"
+					placeholder="Enter Password"
+					value={password}
+					onChange={(e) => setPassword(e.target.value)}
+				/>
+				</div>
+			) : null}
+			{/* PASSWORD OPTIONS ADDED END*/}
+
+			<div className="option">
+
+				<div className='widget-container'>
+					<h2
+						style={{
+							color: 'white',
+							fontSize: 20,
+							marginTop: '20px',
+						}}
+					>
+						Enable Expiration Time:
+					</h2>
+
+					<label className="switch">
+						<input
+							type="checkbox"
+							checked={isExpirationEnabled}
+							onChange={() => setIsExpirationEnabled(!isExpirationEnabled)}
+						/>
+						<span className="slider round"></span>
+					</label>
+				</div>
+			</div>
+
+			{isExpirationEnabled ? (
+				<div className="option">
+				<input
+					type="number"
+					placeholder="Expiration Time (minutes)"
+					value={expirationTime || ''}
+					onChange={(e) => setExpirationTime(Number(e.target.value))}
+				/>
+				</div>
+			) : null}
+
+>>>>>>> js-Upload-Options-Component
 		</div>
 	);
 }
@@ -139,6 +267,17 @@ export default function Upload() {
 		IFileUploadResponse | undefined
 	>(undefined);
 
+<<<<<<< HEAD
+=======
+	const [password, setPassword] = useState("");
+	const [isPasswordEnabled, setIsPasswordEnabled] = useState(false);
+
+	const [expirationTime, setExpirationTime] = useState<number | null>(null);
+
+	const [isExpirationEnabled, setIsExpirationEnabled] = useState(false);
+
+
+>>>>>>> js-Upload-Options-Component
 	console.log('Upload State', uploadState);
 
 	const onFileSelected = useCallback(
@@ -160,6 +299,19 @@ export default function Upload() {
 		setUploadState('/uploading');
 		const form = new FormData();
 		form.append('file', filePendingUpload);
+<<<<<<< HEAD
+=======
+
+		// added password to form data/database
+		if (isPasswordEnabled) {
+			form.append('password', password);
+		}
+
+		if (isExpirationEnabled) {
+			form.append('expirationTime', expirationTime?.toString() || '');
+		}		  
+		
+>>>>>>> js-Upload-Options-Component
 		const response = await fetch(`${ServerUrl}/upload`, {
 			method: 'PUT',
 			body: form,
@@ -175,7 +327,12 @@ export default function Upload() {
 			setUploadedFileInfo(response.data);
 			setUploadState('/uploadSuccess');
 		}
+<<<<<<< HEAD
 	}, [filePendingUpload]);
+=======
+
+	}, [filePendingUpload, isPasswordEnabled, password, isExpirationEnabled, expirationTime]);
+>>>>>>> js-Upload-Options-Component
 
 	return (
 		<section id="upload">
@@ -192,6 +349,20 @@ export default function Upload() {
 					<UploadFileOptions
 						file={filePendingUpload}
 						startUpload={uploadCurrentFile}
+<<<<<<< HEAD
+=======
+
+						setPassword={setPassword}
+						password={password}
+						isPasswordEnabled={isPasswordEnabled}
+						setIsPasswordEnabled={setIsPasswordEnabled}
+
+						setExpirationTime={setExpirationTime}
+						expirationTime={expirationTime}
+						isExpirationEnabled={isExpirationEnabled}
+						setIsExpirationEnabled={setIsExpirationEnabled}
+
+>>>>>>> js-Upload-Options-Component
 					/>
 				)}
 				{uploadState === uploadStates[2] && <UploadingFile />}
