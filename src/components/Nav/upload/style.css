@@ -17,104 +17,14 @@
 
 #upload input[type="file"] {
     display: none;
-<<<<<<< HEAD
-=======
-    
->>>>>>> js-Upload-Options-Component
 }
 
 #upload .options-list {
     display: flex;
     flex-direction: column;
     align-items: center;
-<<<<<<< HEAD
 }
 
 #upload .options-list .option{
 
 }
-=======
-
-}
-
-#upload .options-list .option{
-    
-}
-
-
-/* The widget and switch - the container */
-.widget-container {
-    display: flex; 
-    align-items: center; 
-    vertical-align: middle;
-  }
-  
-  .widget {
-    
-    margin-right: 0%;
-    
-  }
-
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-    /* margin-left: 1%; */
-  }
-  
-  /* Hide the default checkbox input */
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  /* The slider */
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-    
-  }
-  
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-  }
-  
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 34px;
-  }
-  
-  .slider.round:before {
-    border-radius: 50%;
-  }
-  
-  /* Change the background color when the switch is checked */
-  input:checked + .slider {
-    background-color: #2196F3;
-  }
-  
-  /* Move the slider when the switch is checked */
-  input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-  }
-  
->>>>>>> js-Upload-Options-Component

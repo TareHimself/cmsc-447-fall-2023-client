@@ -5,24 +5,11 @@ import { ServerUrl } from '../globals';
 import { IFileAccessResponse, IServerResponse } from '../types';
 import './access.css';
 
-<<<<<<< HEAD
-=======
-
-
-
-
->>>>>>> js-Upload-Options-Component
 export default function Access() {
 	const { infoId } = useParams();
 	const [infoData, setInfoData] = useState<IFileAccessResponse | undefined>(
 		undefined
 	);
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> js-Upload-Options-Component
 	const downloadButtonId = useId();
 
 	return (
@@ -116,16 +103,6 @@ export default function Access() {
 							2
 						)}MB`}</h2>
 					</span>
-<<<<<<< HEAD
-=======
-					{/* <input
-						type="password"
-						value={password}
-						onChange={handlePasswordChange}
-						placeholder="Enter password"
-					/> */}
-
->>>>>>> js-Upload-Options-Component
 					<a
 						id={downloadButtonId}
 						style={{
