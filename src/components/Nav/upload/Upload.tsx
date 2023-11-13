@@ -6,15 +6,11 @@ import { IFileUploadResponse, IServerResponse } from '../../../types';
 import { ServerUrl } from '../../../globals';
 import toast from 'react-hot-toast';
 
-<<<<<<< HEAD
-function UploadIntro({ uploadInputId }: { uploadInputId: string }) {
-=======
 
 
 
 function UploadIntro({ uploadInputId }: { uploadInputId: string }) {
 
->>>>>>> js-Upload-Options-Component
 	return (
 		<button
 			onClick={() => {
@@ -23,21 +19,13 @@ function UploadIntro({ uploadInputId }: { uploadInputId: string }) {
 		>
 			Select File
 		</button>
-<<<<<<< HEAD
-=======
 		
->>>>>>> js-Upload-Options-Component
 	);
 }
 
 function UploadFileOptions({
 	file,
 	startUpload,
-<<<<<<< HEAD
-}: {
-	file: File | undefined;
-	startUpload: () => void;
-=======
 	
 	password,
 	setPassword,
@@ -64,7 +52,6 @@ function UploadFileOptions({
 
 
 
->>>>>>> js-Upload-Options-Component
 }) {
 	if (!file) {
 		return <></>;
@@ -79,12 +66,6 @@ function UploadFileOptions({
 			>
 				{file.name}
 			</h2>
-<<<<<<< HEAD
-			<div className="option"></div>
-			<button style={{ fontSize: 25 }} onClick={startUpload}>
-				Upload
-			</button>
-=======
 			
 			
 			<button style={{ fontSize: 25 }} onClick={startUpload}>
@@ -169,7 +150,6 @@ function UploadFileOptions({
 				</div>
 			) : null}
 
->>>>>>> js-Upload-Options-Component
 		</div>
 	);
 }
@@ -267,8 +247,6 @@ export default function Upload() {
 		IFileUploadResponse | undefined
 	>(undefined);
 
-<<<<<<< HEAD
-=======
 	const [password, setPassword] = useState("");
 	const [isPasswordEnabled, setIsPasswordEnabled] = useState(false);
 
@@ -277,7 +255,6 @@ export default function Upload() {
 	const [isExpirationEnabled, setIsExpirationEnabled] = useState(false);
 
 
->>>>>>> js-Upload-Options-Component
 	console.log('Upload State', uploadState);
 
 	const onFileSelected = useCallback(
@@ -299,8 +276,6 @@ export default function Upload() {
 		setUploadState('/uploading');
 		const form = new FormData();
 		form.append('file', filePendingUpload);
-<<<<<<< HEAD
-=======
 
 		// added password to form data/database
 		if (isPasswordEnabled) {
@@ -311,7 +286,6 @@ export default function Upload() {
 			form.append('expirationTime', expirationTime?.toString() || '');
 		}		  
 		
->>>>>>> js-Upload-Options-Component
 		const response = await fetch(`${ServerUrl}/upload`, {
 			method: 'PUT',
 			body: form,
@@ -327,12 +301,8 @@ export default function Upload() {
 			setUploadedFileInfo(response.data);
 			setUploadState('/uploadSuccess');
 		}
-<<<<<<< HEAD
-	}, [filePendingUpload]);
-=======
 
 	}, [filePendingUpload, isPasswordEnabled, password, isExpirationEnabled, expirationTime]);
->>>>>>> js-Upload-Options-Component
 
 	return (
 		<section id="upload">
@@ -349,8 +319,6 @@ export default function Upload() {
 					<UploadFileOptions
 						file={filePendingUpload}
 						startUpload={uploadCurrentFile}
-<<<<<<< HEAD
-=======
 
 						setPassword={setPassword}
 						password={password}
@@ -362,7 +330,6 @@ export default function Upload() {
 						isExpirationEnabled={isExpirationEnabled}
 						setIsExpirationEnabled={setIsExpirationEnabled}
 
->>>>>>> js-Upload-Options-Component
 					/>
 				)}
 				{uploadState === uploadStates[2] && <UploadingFile />}
