@@ -1,13 +1,4 @@
-h1,h2,h3,p, button {
-  font-family: 'Nunito Sans', sans-serif;
-}
-
-
-
-
 body {
-  --color-background: #005959;
-  background-color: var(--color-background);
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -53,39 +44,8 @@ section {
 }
 
 .page {
-  max-height: calc(100vh - 50px);
-  position: absolute;
-  width: 100%;
-  bottom: 0px;
-  left: 0px;
-  overflow-y: overlay;
-  overflow-x: hidden;
+  margin-top: 50px;
+  max-height: 100vh;
+  overflow: scroll;
   box-sizing: border-box;
-}
-
-
-button {
-  --foreground: black;
-  --background: white;
-  border: none;
-  background-color: var(--background);
-  color: var(--foreground);
-  padding: 5px 20px;
-  /* width: 200px;
-  height: 50px; */
-  border-radius: 20px;
-  font-size: 25px;
-  /* font-family: 'Nunito Sans', sans-serif; */
-  font-weight: bold;
-  transition: all ease-in-out 0.2s;
-}
-
-button:hover {
-  background-color: var(--foreground);
-  color: var(--background);
-}
-
-button:active {
-  background-color: var(--background);
-  color: var(--foreground);
 }

@@ -1,34 +1,57 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Nav from './components/Nav/Nav';
 import Home from './routes/Home';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
-import Access from './routes/Access';
+import {createBrowserRouter, RouterProvider, Route} from "react-router-dom"
+import DownloadPage from './pages/DownloadPage';
+
+
 
 const router = createBrowserRouter([
 	{
-		path: '/',
-		element: <Home />,
+		path:"/",
+		element:<div>Hello world!</div>,
+
 	},
 	{
-		path: '/access/:infoId',
-		element: <Access />,
+		path:"download",
+		element: <DownloadPage/>
+
 	},
 ]);
 
-// eslint-disable-next-line import/no-named-as-default-member
-const root = ReactDOM.createRoot(
-	document.getElementById('root') as HTMLElement
-);
+// import DownloadPage from './Components/DownloadPage';
+
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
+
 
 root.render(
-	<React.StrictMode>
-		<RouterProvider router={router} />
-		<Toaster position="bottom-center" reverseOrder={false} />
-	</React.StrictMode>
+	
+	<RouterProvider router={router}/>
+	// <React.StrictMode>
+	// 	<Home />
+	// </React.StrictMode>
+	
 );
+
+// root.render(
+
+	
+// 	<React.StrictMode>
+// 		<Home />
+// 		{/* <DownloadPage /> */}
+// 	</React.StrictMode>
+
+	
+// );
+
+
+
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

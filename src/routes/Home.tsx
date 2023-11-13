@@ -1,6 +1,9 @@
 import React from 'react';
 import Nav from '../components/Nav/Nav';
-import Upload from '../components/Nav/upload/Upload';
+import FileUpload from '../Components/FileUpload';
+import UploadOpt from '../Components/UploadOpt';
+import DownloadPage from '../Components/DownloadButton';
+
 
 export default function Home() {
 	return (
@@ -8,46 +11,49 @@ export default function Home() {
 			<Nav
 				links={[
 					{
-						label: 'Upload',
-						href: '#upload',
-					},
-					{
 						label: 'Intro',
 						href: '#intro',
+					},
+					{
+						label: 'About',
+						href: '#about',
 					},
 					{
 						label: 'Contact',
 						href: '#contact',
 					},
+					{
+						label: 'TEST DOWNLOAD PAGE',
+						href: '#Download-hash',
+					},
 				]}
 			/>
 			<div className="page">
-				<Upload/>
+				
 				<section
 					id="intro"
 					style={{
 						backgroundColor: 'red',
 					}}
 				>
-				
-				</section>
-				{/* <section
-					id="upload"
-					style={{
-						margin: '20px',
-						border: '1px solid #FF6666',
-						backgroundColor: '#FFCCCC',
+					        <div >
+						<h1>File Upload App</h1>
+						<FileUpload />
+					</div>
+					<div>
+						<h3>Upload Options:</h3>
+						<UploadOpt />
 						
-					}}
-				>
-					<h1 style={{margin: '70px', backgroundColor: '#FF6666', color: 'white', textAlign: 'center', padding: "6px 12px"}}> Upload File</h1>
-					<label style={{backgroundColor: '#FF6666', color: 'white'}}>
-						<input type="file" style={{display: "none"}} onChange={e => console.log(e.target.files)}/>
-						Select File
-					</label>
+					</div>
 					
 
-				</section> */}
+				</section>
+				<section
+					id="about"
+					style={{
+						backgroundColor: 'blue',
+					}}
+				></section>
 				<section
 					id="contact"
 					style={{
