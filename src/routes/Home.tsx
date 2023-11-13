@@ -25,10 +25,15 @@ export default function Home() {
 				<Upload/>
 				<section
 					id="intro"
-					style={{
-						backgroundColor: 'red',
-					}}
+					// style={{
+					// 	backgroundColor: 'red',
+					// }}
 				>
+					<h1 style={{margin:'70px'}}>FileCher: A File Sharing Platform</h1>
+					<h3 style={{margin:'70px', color: "white"}}>FileCher is dedicated to providing a quick and simple way for users to share their files.
+					With FileCher you can anonymously upload files and secure them through password protection and an
+					automatic expiration timer.
+					</h3>
 				
 				</section>
 				{/* <section
@@ -50,10 +55,14 @@ export default function Home() {
 				</section> */}
 				<section
 					id="contact"
-					style={{
-						backgroundColor: 'green',
-					}}
-				></section>
+					// style={{
+					// 	backgroundColor: 'green',
+					// }}
+				>
+					<h1 style={{margin:'70px'}}>Questions and concerns?</h1>
+				<h3 style={{margin:'70px', color:"white"}}>Contact us at xxxxinsertemailxxx@gmail.com</h3>
+				</section>
+				
 			</div>
 		</>
 	);
