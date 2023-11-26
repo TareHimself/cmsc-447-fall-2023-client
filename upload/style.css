@@ -1,0 +1,230 @@
+#upload {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    box-sizing: border-box;
+    font-family: 'SF Pro Text', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+#upload .inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+#upload input[type="file"] {
+    display: none;
+}
+
+#upload .inner .home-upload {
+  width: 100%; 
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#upload .inner .home-upload .uploadinfo {
+  /* width: 100%; */
+  /* height: 100%; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+  
+  
+}
+
+.upload-btn {
+  margin-top: 20px;
+}
+
+#upload .inner .home-upload .options-list {
+    padding-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    gap: 25px;
+    justify-content: center;
+    /* flex-direction:row; */
+        /* align-items: center; */
+
+}
+
+.label {
+  font-size: 50px;
+}
+#upload  .inner .home-upload .options-list .widget-container {
+
+  width:25rem; 
+  display: flex;
+  background-color: #333;
+  padding: 2px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column; 
+  /* vertically stacks */
+  margin-bottom: 20px;
+  /* gap: 20px; */
+    /* height:10rem; */
+}
+  
+.widget-container .switch {
+  
+  position: relative;
+  display: inline-block;
+  width: 4rem; 
+  height: 2rem; 
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+
+  }
+
+  .switch input {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 2rem;
+    width: 2rem;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+  }
+  
+  .slider.round {
+    border-radius: 3rem;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+  
+
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(2.1rem);
+    -ms-transform: translateX(2.1rem);
+    transform: translateX(2.1rem);
+    
+  }
+ 
+  .option .widget-container .switch input .date-time {
+    margin-top: 25px;
+    margin-bottom: 25px; 
+
+    font-size: 16px; 
+    border: 5px solid white; 
+    color: white;
+    background-color: white;
+    justify-content: center;
+    align-content: center;
+
+  }
+
+   .option .password-box input {
+    margin-top: 25px;
+    margin-bottom: 35px; 
+    padding: 8px; 
+    padding-right: 50px;
+    padding-bottom: 8px;
+    font-size: 16px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+
+    
+  } 
+  
+    .option .pweye-btn {
+      position: absolute;
+      right: -10px; 
+      top: 45%;
+      transform: translateY(-50%);
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 2rem;
+    width: 2rem;
+    left: 0px;
+    bottom: 0px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(2.1rem);
+    -ms-transform: translateX(2.1rem);
+    transform: translateX(2.1rem);
+  }
+  
+
+  .trash-icon {
+    cursor: pointer;
+    color: #d9534f; 
+    font-size: 20px;
+    margin-left: 10px;
+  }
+  
+
+  .expiration-time {
+    margin-top: 10px;
+    color: #333;
+  }
+  
+
+  .selected-time {
+    margin-top: 10px;
+    color: #333;
+  }
+
+  .expire-out p {
+    margin: 5px 0;
+    color: white;
+    font-size: 18px; 
+    font-weight: 500; 
+    font-family: 'SF Pro Text', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
