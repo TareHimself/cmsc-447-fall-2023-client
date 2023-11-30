@@ -13,31 +13,14 @@ import pwshow from './pwshow.png';
 
 // MUI USED
 import dayjs, { Dayjs } from 'dayjs';
+
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import "react-datepicker/dist/react-datepicker.css";
 import type {} from '@mui/x-date-pickers/themeAugmentation';
-import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
 import Typography from '@mui/material/Typography';
+import { StaticDateTimePicker } from '@mui/x-date-pickers/StaticDateTimePicker';
 
-// UNUSED MUI IMPORTS FOR NOW
-// import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-// import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-// import { StaticDateTimePicker } from '@mui/x-date-pickers/StaticDateTimePicker';
-// import { styled } from '@mui/material/styles';
-// import IconButton from '@mui/material/IconButton';
-// import { PickersLayout } from '@mui/x-date-pickers';
-// import { TimeClock } from '@mui/x-date-pickers/TimeClock';
-// import {
-// 	usePickerLayout,
-// 	PickersLayoutRoot,
-// 	pickersLayoutClasses,
-// 	PickersLayoutContentWrapper,
-//   } from '@mui/x-date-pickers/PickersLayout';
-
-// import { isWhiteSpaceLike } from 'typescript';
 
 // TIME ZONES:
 import timezone from 'dayjs/plugin/timezone';
@@ -45,7 +28,10 @@ import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault('America/New_York');
-// const TIMEZONES: PickersTimezone[] = ['default', 'system', 'UTC', 'America/Chicago'];
+
+const date = dayjs.tz('2022-04-17T15:30');
+
+
 
 
 function UploadIntro({ uploadInputId }: { uploadInputId: string }) {
@@ -86,7 +72,6 @@ function UploadFileOptions({
 
 	expirationTime: Dayjs | null;
 	setExpirationTime: (date: Dayjs | null) => void;
-	// setExpirationTime: (time: number | null) => void;
 	isExpirationEnabled: boolean;
 	setIsExpirationEnabled: (isEnabled: boolean) => void;
 
@@ -95,9 +80,8 @@ function UploadFileOptions({
 
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 	const today = dayjs();
-	// const yesterday = dayjs().subtract(1, 'day');
-	const todayStartOfTheDay = today.startOf('day');
 	const maxDay = dayjs().add(3, 'day');
+
 
 	if (!file) {
 		return <></>;
@@ -210,7 +194,7 @@ function UploadFileOptions({
 										setIsExpirationEnabled(!isExpirationEnabled)
 										if (!isExpirationEnabled) {
 											setExpirationTime(null);
-											// setShowExpirationPicker(true);
+									
 									}
 								}}
 								/>
@@ -222,42 +206,73 @@ function UploadFileOptions({
 
 						{isExpirationEnabled && (
 
-							// <div className="option">
-								
-								<LocalizationProvider dateAdapter={AdapterDayjs} >
+
+							<LocalizationProvider dateAdapter={AdapterDayjs} >
 			
-									<Typography sx={{   position: 'relative', fontSize: '3rem', fontWeight:'bold', borderColor:'none',  justifyContent: 'center', textAlign: 'center', color: 'white',}}>	
+								<Typography sx={{display: 'flex', flexDirection:'column',position: 'relative', fontSize: '1rem', fontWeight:'bold', borderColor:'none',  justifyContent: 'center', textAlign: 'center', color: 'white', width:'25rem'}}>	
+								
+									<StaticDateTimePicker 
+									
+									sx={{display: 'flex', flexDirection:'column',minWidth: 'auto', width:'100%',maxWidth: '100%',  backgroundColor: "gray",justifyContent: 'center', position:'relative', borderColor:'white', alignItems: 'center', alignContent:'center', '& .css-1u23akw-MuiButtonBase-root-MuiPickersDay-root':{display: 'flex',fontSize:'100%', color: "white",  margin: ".2rem", fontWeight: 'bold', widthMax:'100%'}, '& .css-1b9e08i-MuiTypography-root-MuiPickersToolbarText-root.Mui-selected': {display:'flex',fontSize: '2em', position: 'relative'}, '& .css-1j9v0by-MuiClock-root': {display:'flex', position: 'relative'}, '& .css-cgnqp7-MuiTypography-root':{display:'flex'}, '& .css-cyfsxc-MuiPickersCalendarHeader-labelContainer':{display: 'flex', fontSize:'.7rem',margin:'2px'}, '& .css-1vooibu-MuiSvgIcon-root':{display: 'flex', fontSize:'1rem',margin:'2px'}, '& .css-i4bv87-MuiSvgIcon-root':{fontSize:'2em'}, '& .css-7kirvq-MuiTypography-root-MuiPickersToolbarText-root.Mui-selected':{backgroundColor: 'black', color: 'white'},'& .css-2x8kvt-MuiPickersArrowSwitcher-root-MuiTimeClock-arrowSwitcher': {marginLeft:'50%'},'& .css-1b9e08i-MuiTypography-root-MuiPickersToolbarText-root':{marginRight: '3rem'} }}
 
-										<DateTimePicker sx={{  justifyContent: 'center', alignContent: 'center', alignItems: 'center', position:'relative', fontSize: '2rem',fontWeight: 'bold', borderColor:'white', padding:"20px", '& input': {position: 'relative',fontSize: '1rem', color: 'white', borderColor: 'white', display:'flex',fontWeight: 'bold'}, '& label': {padding:"20px", color: 'white', fontSize:'.8rem'}, '& .css-i4bv87-MuiSvgIcon-root': {fill: 'white'} }}						
+										
+										defaultValue={today}											
+										disablePast
+										minDate = {today}	
+										maxDate={maxDay}
+
+									slotProps={{
+										actionBar: {											
+											actions: ['today'],
+										},
+									}}
+
+									value ={expirationTime}
+									onChange={setExpirationTime}
+							
+									orientation='portrait'																
+									/>
+							
+								</Typography>
+
+								{/* ALTERNATIVE CODE INPUT BOX */}
+								{/* <Typography sx={{position: 'relative', fontSize: '1rem', fontWeight:'bold', borderColor:'none',  justifyContent: 'center', textAlign: 'center', color: 'white',}}>	
+									<DateTimePicker sx={{  justifyContent: 'center', alignContent: 'center', alignItems: 'center', position:'relative', fontSize: '2rem',fontWeight: 'bold', borderColor:'white', padding:"20px", '& input': {position: 'relative',fontSize: '1rem', color: 'white', borderColor: 'white', display:'flex',fontWeight: 'bold'}, '& label': {padding:"20px", color: 'white', fontSize:'.95rem', fontStyle: 'bold'}, '& .css-i4bv87-MuiSvgIcon-root': {fill: 'white'} }}		
+										label = "Enter Date/Time or Click Calendar"
+										// timezone="America/New_York"
+										defaultValue={today}	
+										
+										disablePast
+										slotProps={{
+											actionBar: {
 												
-											defaultValue={today}											
-											disablePast
-											maxDate={maxDay}
-											views={['year','month', 'day', 'hours', 'minutes']}
+											actions: ['accept','today'],
+											},
+										}}
 
-											label = "Enter Date/Time or Click Calendar"											
-											viewRenderers={{
-												
-												hours: renderTimeViewClock,
-												minutes: renderTimeViewClock,
-												seconds: renderTimeViewClock,
-											}}
-											
-											value={expirationTime}
-											// onChange={setExpDate}
-											onChange={setExpirationTime}
-																					
-											referenceDate={dayjs('2023-11-25T23:00:25.957Z')}											
-											/>
-											
-									</Typography>
+										minDate = {today}	
+										maxDate={maxDay}
+										// views={['year', 'month', 'day', 'hours', 'minutes']} 
+										
+										viewRenderers={{
+											hours: renderTimeViewClock,
+											minutes: renderTimeViewClock,
+											seconds: renderTimeViewClock,
+										}}					
+										onAccept={setExpirationTime}
+																				
+										referenceDate={today}											
+										/>
+								
+								</Typography> */}
 
-									<Typography>
-									Stored value: {expirationTime == null ? 'null' : expirationTime.format()}
-									</Typography>
-																		
-							</LocalizationProvider>
-							)}
+								<Typography sx= {{fontSize:'1rem',}}>
+									Stored UTC Time: {expirationTime == null ? 'null' : expirationTime.format()}
+								</Typography>
+
+						</LocalizationProvider>
+				
+						)}
 					</div>
 				</div> 
 			</div>
@@ -437,7 +452,7 @@ export default function Upload() {
 					
 						file={filePendingUpload}
 						startUpload={uploadCurrentFile}
-						
+
 						setPassword={setPassword}
 						password={password}
 						isPasswordEnabled={isPasswordEnabled}
