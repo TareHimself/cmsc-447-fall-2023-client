@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default */
 import { useCallback, useId, useState } from 'react';
 // import React, { useCallback, useId, useState } from 'react';
 import './style.css';

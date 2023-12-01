@@ -1,4 +1,5 @@
-import React, { useEffect, useId, useState } from 'react';
+/* eslint-disable import/no-named-as-default */
+import React, { useId, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import { ServerUrl } from '../globals';
