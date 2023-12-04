@@ -101,4 +101,30 @@ button:active {
   border-radius: 4px; 
 
   
-} 
+}
+
+h1 {
+  font-size: 30px;
+}
+
+.flex-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0px 20%;
+}
+
+.flex-center h1,.flex-center h2,.flex-center h3, .flex-center p {
+  color: white;
+  text-align: center;
+}
+
+.flex-center h1 {
+  margin: 30px 0px;
+}
+
+.flex-center h2 {
+  margin: 20px 0px;
+}
