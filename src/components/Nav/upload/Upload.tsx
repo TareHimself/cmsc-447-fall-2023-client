@@ -1,12 +1,17 @@
 /* eslint-disable import/no-named-as-default */
-import { useCallback, useId, useState } from 'react';
+import { useCallback, useId, useState, useEffect } from 'react';
 // import React, { useCallback, useId, useState } from 'react';
 import './style.css';
-import { CircularProgress, Stack } from '@mui/material';
+import {
+	Box,
+	CircularProgress,
+	CircularProgressProps,
+	Stack,
+} from '@mui/material';
 import { IFileUploadResponse, IServerResponse } from '../../../types';
 import { ServerUrl } from '../../../globals';
-import axios from 'axios'
 import toast from 'react-hot-toast';
+import axios from 'axios';
 
 // EYE IMAGES
 import pwhide from './pwhide.png';
@@ -26,6 +31,35 @@ import { StaticDateTimePicker } from '@mui/x-date-pickers/StaticDateTimePicker';
 // TIME ZONES:
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
+
+function CircularProgressWithLabel(
+	props: CircularProgressProps & { value: number }
+) {
+	return (
+		<Box sx={{ position: 'relative', display: 'inline-flex' }}>
+			<CircularProgress variant="indeterminate" size={100} color={"inherit"}/>
+			<Box
+				sx={{
+					top: 0,
+					left: 0,
+					bottom: 0,
+					right: 0,
+					position: 'absolute',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+				}}
+			>
+				<Typography
+					variant="caption"
+					component="div"
+					color="white"
+				>{`${props.value.toFixed(2)}%`}</Typography>
+			</Box>
+		</Box>
+	);
+}
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjsTimezone.setDefault(dayjsTimezone.guess());
@@ -51,7 +85,7 @@ function UploadFileOptions({
 	expirationTime,
 	setExpirationTime,
 	maxViews,
-	setMaxViews
+	setMaxViews,
 }: {
 	file: File | undefined;
 	startUpload: () => void;
@@ -92,10 +126,7 @@ function UploadFileOptions({
 				</button>
 			</div>
 
-			
-
 			<div className="options-list">
-
 				{/* MaxViews OPTIONS*/}
 				<div className="option">
 					<div className="widget-container">
@@ -116,12 +147,10 @@ function UploadFileOptions({
 									checked={maxViews !== undefined}
 									onChange={(e) => {
 										e.persist();
-										if(maxViews === undefined){
-											setMaxViews(1)
-										}
-										else
-										{
-											setMaxViews(undefined)
+										if (maxViews === undefined) {
+											setMaxViews(1);
+										} else {
+											setMaxViews(undefined);
 										}
 									}}
 								/>
@@ -170,12 +199,10 @@ function UploadFileOptions({
 									checked={password !== undefined}
 									onChange={(e) => {
 										e.persist();
-										if(password === undefined){
-											setPassword('')
-										}
-										else
-										{
-											setPassword(undefined)
+										if (password === undefined) {
+											setPassword('');
+										} else {
+											setPassword(undefined);
 										}
 									}}
 								/>
@@ -253,12 +280,10 @@ function UploadFileOptions({
 									type="checkbox"
 									checked={expirationTime !== undefined}
 									onChange={() => {
-										if(expirationTime === undefined){
-											setExpirationTime(dayjs.default())
-										}
-										else
-										{
-											setExpirationTime(undefined)
+										if (expirationTime === undefined) {
+											setExpirationTime(dayjs.default());
+										} else {
+											setExpirationTime(undefined);
 										}
 									}}
 								/>
@@ -356,7 +381,9 @@ function UploadFileOptions({
 											}}
 											value={expirationTime}
 											onChange={(d) => {
-												setExpirationTime(d ?? undefined);
+												setExpirationTime(
+													d ?? undefined
+												);
 											}}
 											orientation="portrait"
 										/>
@@ -405,29 +432,6 @@ function UploadFileOptions({
 					</div>
 				</div>
 			</div>
-		</div>
-	);
-}
-
-function UploadingFile() {
-	return (
-		<div
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-			}}
-		>
-			<Stack sx={{ color: 'white' }}>
-				<CircularProgress size={100} color="inherit" />
-			</Stack>
-			<h2
-				style={{
-					color: 'white',
-				}}
-			>
-				Uploading
-			</h2>
 		</div>
 	);
 }
@@ -511,6 +515,8 @@ export default function Upload() {
 		uploadStates[0]
 	);
 
+	const [uploadProgress, setUploadProgress] = useState(0);
+
 	const [filePendingUpload, setFilePendingUpload] = useState<
 		File | undefined
 	>(undefined);
@@ -522,7 +528,9 @@ export default function Upload() {
 	// use states for option
 	const [password, setPassword] = useState<string | undefined>(undefined);
 	const [maxViews, setMaxViews] = useState<undefined | number>(undefined);
-	const [expirationTime, setExpirationTime] = useState<dayjs.Dayjs | undefined>(undefined);
+	const [expirationTime, setExpirationTime] = useState<
+		dayjs.Dayjs | undefined
+	>(undefined);
 
 	const onFileSelected = useCallback(
 		(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -535,44 +543,90 @@ export default function Upload() {
 		[]
 	);
 
+	console.log("UP",uploadProgress)
 	const uploadCurrentFile = useCallback(async () => {
-		if (!filePendingUpload) {
-			setUploadState('/none');
-			return;
-		}
-		setUploadState('/uploading');
-		const form = new FormData();
-		form.append('file', filePendingUpload);
-
-		// add password to form data/database
-
-		if (password !== undefined) {
-			form.append('password', password);
-		}
-
-		if (expirationTime !== undefined) {
-			form.append('expire', expirationTime?.toString() ?? '');
-		}
-
-		if (maxViews !== undefined) {
-			form.append('maxViews', maxViews?.toString() ?? '0');
-		}
-
+		try {
+			if (!filePendingUpload) {
+				setUploadState('/none');
+				return;
+			}
+			setUploadState('/uploading');
+			const form = new FormData();
+			form.append('file', filePendingUpload);
+	
+			// add password to form data/database
+	
+			if (password !== undefined) {
+				form.append('password', password);
+			}
+	
+			if (expirationTime !== undefined) {
+				form.append('expire', expirationTime?.toString() ?? '');
+			}
+	
+			if (maxViews !== undefined) {
+				form.append('maxViews', maxViews?.toString() ?? '0');
+			}
+	
+			
 		const response = await axios.put<IServerResponse<IFileUploadResponse>>(`${ServerUrl}/upload`,form,{
 			onUploadProgress(progressEvent) {
+						setUploadProgress((progressEvent.progress ?? 0) * 100);
 				console.log("Upload progress",progressEvent.progress)
 			},
 		}).then(c => c.data)
 
-		if (response.error !== null) {
-			setUploadState('/beforeUpload');
-			toast.error('Upload Failed');
-			setFilePendingUpload(undefined);
-		} else {
-			setUploadedFileInfo(response.data);
-			setUploadState('/uploadSuccess');
+			// const response = await new Promise<
+			// 	IServerResponse<IFileUploadResponse>
+			// >((res, rej) => {
+			// 	const xhr = new XMLHttpRequest();
+	
+			// 	xhr.open('PUT', `${ServerUrl}/upload`, true);
+	
+			// 	xhr.upload.onprogress = (e) => {
+			// 		if (e.lengthComputable) {
+			// 			const percentComplete = (e.loaded / e.total) * 100;
+			// 			setUploadProgress(percentComplete);
+			// 		}
+			// 	};
+	
+			// 	xhr.onload = () => {
+			// 		res(JSON.parse(xhr.responseText));
+			// 	};
+	
+			// 	xhr.onerror = () => {
+			// 		rej(new Error('Upload failed.'));
+			// 	};
+	
+			// 	xhr.send(form);
+			// });
+	
+			if (response.error !== null) {
+				setUploadState('/beforeUpload');
+				toast.error('Upload Failed');
+				setFilePendingUpload(undefined);
+			} else {
+				setUploadedFileInfo(response.data);
+				setUploadState('/uploadSuccess');
+			}
+		} catch (error) {
+			toast.error((error as Error).message)
+			setUploadState("/beforeUpload");
+			
 		}
-	}, [filePendingUpload, password, expirationTime, maxViews]);
+	}, [
+		filePendingUpload,
+		password,
+		expirationTime,
+		maxViews,
+		setUploadProgress,
+	]);
+
+	useEffect(() => {
+		if (uploadState !== '/uploading') {
+			setUploadProgress(0);
+		}
+	}, [uploadState]);
 
 	return (
 		<section id="upload">
@@ -597,13 +651,39 @@ export default function Upload() {
 						setMaxViews={setMaxViews}
 					/>
 				)}
-				{uploadState === uploadStates[2] && <UploadingFile />}
+				{uploadState === uploadStates[2] && (
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+						}}
+					>
+						<Stack sx={{ color: 'white' }}>
+							<CircularProgressWithLabel
+								variant="determinate"
+								size={100}
+								color="inherit"
+								value={uploadProgress}
+							/>
+						</Stack>
+						<h2
+							style={{
+								color: 'white',
+							}}
+						>
+							Uploading
+						</h2>
+					</div>
+				)}
 				{uploadState === uploadStates[3] && (
 					<DisplayUploadedFileInfo
 						info={uploadedFileInfo}
 						onUploadNew={() => {
-							setUploadState('/none');
 							setFilePendingUpload(undefined);
+							setUploadedFileInfo(undefined);
+							(document.getElementById(uploadInputId) as HTMLInputElement).value = ""
+							setUploadState('/none');
 						}}
 					/>
 				)}
