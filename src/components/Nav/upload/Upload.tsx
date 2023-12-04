@@ -11,6 +11,7 @@ import {
 import { IFileUploadResponse, IServerResponse } from '../../../types';
 import { ServerUrl } from '../../../globals';
 import toast from 'react-hot-toast';
+import axios from 'axios';
 
 // EYE IMAGES
 import pwhide from './pwhide.png';
@@ -435,29 +436,6 @@ function UploadFileOptions({
 	);
 }
 
-function UploadingFile() {
-	return (
-		<div
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-			}}
-		>
-			<Stack sx={{ color: 'white' }}>
-				<CircularProgress size={100} color="inherit" />
-			</Stack>
-			<h2
-				style={{
-					color: 'white',
-				}}
-			>
-				Uploading
-			</h2>
-		</div>
-	);
-}
-
 function DisplayUploadedFileInfo({
 	info,
 	onUploadNew,
@@ -591,30 +569,37 @@ export default function Upload() {
 			}
 	
 			
-			const response = await new Promise<
-				IServerResponse<IFileUploadResponse>
-			>((res, rej) => {
-				const xhr = new XMLHttpRequest();
+		const response = await axios.put<IServerResponse<IFileUploadResponse>>(`${ServerUrl}/upload`,form,{
+			onUploadProgress(progressEvent) {
+						setUploadProgress((progressEvent.progress ?? 0) * 100);
+				console.log("Upload progress",progressEvent.progress)
+			},
+		}).then(c => c.data)
+
+			// const response = await new Promise<
+			// 	IServerResponse<IFileUploadResponse>
+			// >((res, rej) => {
+			// 	const xhr = new XMLHttpRequest();
 	
-				xhr.open('PUT', `${ServerUrl}/upload`, true);
+			// 	xhr.open('PUT', `${ServerUrl}/upload`, true);
 	
-				xhr.upload.onprogress = (e) => {
-					if (e.lengthComputable) {
-						const percentComplete = (e.loaded / e.total) * 100;
-						setUploadProgress(percentComplete);
-					}
-				};
+			// 	xhr.upload.onprogress = (e) => {
+			// 		if (e.lengthComputable) {
+			// 			const percentComplete = (e.loaded / e.total) * 100;
+			// 			setUploadProgress(percentComplete);
+			// 		}
+			// 	};
 	
-				xhr.onload = () => {
-					res(JSON.parse(xhr.responseText));
-				};
+			// 	xhr.onload = () => {
+			// 		res(JSON.parse(xhr.responseText));
+			// 	};
 	
-				xhr.onerror = () => {
-					rej(new Error('Upload failed.'));
-				};
+			// 	xhr.onerror = () => {
+			// 		rej(new Error('Upload failed.'));
+			// 	};
 	
-				xhr.send(form);
-			});
+			// 	xhr.send(form);
+			// });
 	
 			if (response.error !== null) {
 				setUploadState('/beforeUpload');
@@ -695,7 +680,10 @@ export default function Upload() {
 					<DisplayUploadedFileInfo
 						info={uploadedFileInfo}
 						onUploadNew={() => {
-							window.location.pathname = '/';
+							setFilePendingUpload(undefined);
+							setUploadedFileInfo(undefined);
+							(document.getElementById(uploadInputId) as HTMLInputElement).value = ""
+							setUploadState('/none');
 						}}
 					/>
 				)}
