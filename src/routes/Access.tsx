@@ -1,4 +1,5 @@
-import React, { useEffect, useId, useState } from 'react';
+/* eslint-disable import/no-named-as-default */
+import React, { useId, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import { ServerUrl } from '../globals';
@@ -11,6 +12,7 @@ export default function Access() {
 		undefined
 	);
 	const downloadButtonId = useId();
+	const [accessPassword,setAccessPassword] = useState("");
 
 	return (
 		<div
@@ -26,6 +28,43 @@ export default function Access() {
 		>
 			{infoData == undefined && (
 				<>
+					<div
+									className="password-box"
+									style={{ position: 'relative' }}
+								>
+									<input
+										className="password-in"
+										type={'password'}
+										required
+										placeholder="Enter Password"
+										value={accessPassword}
+										onChange={(e) =>
+											setAccessPassword(e.target.value)
+										}
+									/>
+									{/* <button
+										className="pweye-btn"
+										type="button"
+										onClick={() =>
+											setIsPasswordVisible(
+												!isPasswordVisible
+											)
+										}
+									>
+										<img
+											src={
+												isPasswordVisible
+													? pwhide
+													: pwshow
+											}
+											alt="Toggle PW Visibility"
+											style={{
+												width: '20px',
+												height: '20px',
+											}}
+										/>
+									</button> */}
+								</div>
 					<button
 						onClick={() => {
 							toast
@@ -37,7 +76,7 @@ export default function Access() {
 											'Accessing',
 											`${ServerUrl}/access/${infoId}`
 										);
-										fetch(`${ServerUrl}/access/${infoId}`)
+										fetch(`${ServerUrl}/access/${infoId}?password=${accessPassword}`)
 											.then(
 												(c) =>
 													c.json() as Promise<
@@ -61,25 +100,41 @@ export default function Access() {
 									{
 										loading: 'Accessing File',
 										success: 'Accessed File',
-										error: 'Something Went Wrong',
+										error: (e) => {
+											if(e instanceof Error){
+												const message = e.message
+												if(message.toLowerCase() === "failed to fetch"){
+													return "Failed to reach the server"
+												}
+	
+												return `An Server Error has occured: ${message}`
+											}
+
+											if(typeof e === 'string'){
+												return e
+											}
+
+											return "An unknown error has occured"
+											
+										},
 									}
 								)
 								.then((c) => {
 									if (c) {
 										setInfoData(c);
 									}
-								});
+								}).catch(console.error);
 						}}
 					>
 						Access File
 					</button>
-					<button
+					{/* <button
 						onClick={() => {
 							window.location.href = window.location.origin;
 						}}
 					>
 						I Dont Know Why I Am Here
-					</button>
+					</button> */}
 				</>
 			)}
 
