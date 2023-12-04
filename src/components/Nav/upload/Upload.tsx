@@ -5,6 +5,7 @@ import './style.css';
 import { CircularProgress, Stack } from '@mui/material';
 import { IFileUploadResponse, IServerResponse } from '../../../types';
 import { ServerUrl } from '../../../globals';
+import axios from 'axios'
 import toast from 'react-hot-toast';
 
 // EYE IMAGES
@@ -47,25 +48,20 @@ function UploadFileOptions({
 
 	password,
 	setPassword,
-	isPasswordEnabled,
-	setIsPasswordEnabled,
-
 	expirationTime,
 	setExpirationTime,
-	isExpirationEnabled,
-	setIsExpirationEnabled,
+	maxViews,
+	setMaxViews
 }: {
 	file: File | undefined;
 	startUpload: () => void;
-	password: string;
-	setPassword: (password: string) => void;
-	isPasswordEnabled: boolean;
-	setIsPasswordEnabled: (isEnabled: boolean) => void;
+	password: string | undefined;
+	setPassword: (password: string | undefined) => void;
 
-	expirationTime: dayjs.Dayjs | null;
-	setExpirationTime: (date: dayjs.Dayjs | null) => void;
-	isExpirationEnabled: boolean;
-	setIsExpirationEnabled: (isEnabled: boolean) => void;
+	expirationTime: dayjs.Dayjs | undefined;
+	setExpirationTime: (date: dayjs.Dayjs | undefined) => void;
+	maxViews: number | undefined;
+	setMaxViews: (views: number | undefined) => void;
 }) {
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 	const today = dayjs.default();
@@ -96,9 +92,65 @@ function UploadFileOptions({
 				</button>
 			</div>
 
-			{/* PASSWORD OPTIONS ADDED BELOW*/}
+			
 
 			<div className="options-list">
+
+				{/* MaxViews OPTIONS*/}
+				<div className="option">
+					<div className="widget-container">
+						<h2
+							style={{
+								display: 'flex',
+								color: 'white',
+								fontSize: 22,
+								margin: '20px',
+								verticalAlign: 'middle',
+								gap: '20px',
+							}}
+						>
+							Max Views:
+							<label className="switch">
+								<input
+									type="checkbox"
+									checked={maxViews !== undefined}
+									onChange={(e) => {
+										e.persist();
+										if(maxViews === undefined){
+											setMaxViews(1)
+										}
+										else
+										{
+											setMaxViews(undefined)
+										}
+									}}
+								/>
+								<span className="slider round"></span>
+							</label>
+						</h2>
+
+						<div className="option">
+							{maxViews !== undefined ? (
+								<div
+									className="password-box"
+									style={{ position: 'relative' }}
+								>
+									<input
+										className="password-in"
+										type="number"
+										required
+										value={maxViews}
+										onChange={(e) =>
+											setMaxViews(e.target.valueAsNumber)
+										}
+									/>
+								</div>
+							) : null}
+						</div>
+					</div>
+				</div>
+
+				{/* PASSWORD OPTIONS*/}
 				<div className="option">
 					<div className="widget-container">
 						<h2
@@ -115,14 +167,15 @@ function UploadFileOptions({
 							<label className="switch">
 								<input
 									type="checkbox"
-									checked={isPasswordEnabled}
+									checked={password !== undefined}
 									onChange={(e) => {
 										e.persist();
-										setIsPasswordEnabled(
-											!isPasswordEnabled
-										);
-										if (!isPasswordEnabled) {
-											setPassword('');
+										if(password === undefined){
+											setPassword('')
+										}
+										else
+										{
+											setPassword(undefined)
 										}
 									}}
 								/>
@@ -131,7 +184,7 @@ function UploadFileOptions({
 						</h2>
 
 						<div className="option">
-							{isPasswordEnabled ? (
+							{password !== undefined ? (
 								<div
 									className="password-box"
 									style={{ position: 'relative' }}
@@ -198,13 +251,14 @@ function UploadFileOptions({
 								<input
 									className="date-time"
 									type="checkbox"
-									checked={isExpirationEnabled}
+									checked={expirationTime !== undefined}
 									onChange={() => {
-										setIsExpirationEnabled(
-											!isExpirationEnabled
-										);
-										if (!isExpirationEnabled) {
-											setExpirationTime(null);
+										if(expirationTime === undefined){
+											setExpirationTime(dayjs.default())
+										}
+										else
+										{
+											setExpirationTime(undefined)
 										}
 									}}
 								/>
@@ -213,7 +267,7 @@ function UploadFileOptions({
 						</h2>
 
 						<div className="option">
-							{isExpirationEnabled && (
+							{expirationTime !== undefined && (
 								<LocalizationProvider
 									dateAdapter={AdapterDayjs}
 								>
@@ -301,7 +355,9 @@ function UploadFileOptions({
 												},
 											}}
 											value={expirationTime}
-											onChange={setExpirationTime}
+											onChange={(d) => {
+												setExpirationTime(d ?? undefined);
+											}}
 											orientation="portrait"
 										/>
 									</Typography>
@@ -464,13 +520,9 @@ export default function Upload() {
 	>(undefined);
 
 	// use states for option
-	const [password, setPassword] = useState('');
-	const [isPasswordEnabled, setIsPasswordEnabled] = useState(false);
-
-	const [expirationTime, setExpirationTime] = useState<dayjs.Dayjs | null>(null);
-	const [isExpirationEnabled, setIsExpirationEnabled] = useState(false);
-
-	console.log('Upload State', uploadState);
+	const [password, setPassword] = useState<string | undefined>(undefined);
+	const [maxViews, setMaxViews] = useState<undefined | number>(undefined);
+	const [expirationTime, setExpirationTime] = useState<dayjs.Dayjs | undefined>(undefined);
 
 	const onFileSelected = useCallback(
 		(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -494,21 +546,23 @@ export default function Upload() {
 
 		// add password to form data/database
 
-		if (isPasswordEnabled) {
+		if (password !== undefined) {
 			form.append('password', password);
 		}
 
-		if (isExpirationEnabled && expirationTime) {
-			console.log('ENTERED IS EXPIRATION ENABLE ENTERED');
+		if (expirationTime !== undefined) {
 			form.append('expire', expirationTime?.toString() ?? '');
 		}
 
-		const response = await fetch(`${ServerUrl}/upload`, {
-			method: 'PUT',
-			body: form,
-		}).then(
-			(c) => c.json() as Promise<IServerResponse<IFileUploadResponse>>
-		);
+		if (maxViews !== undefined) {
+			form.append('maxViews', maxViews?.toString() ?? '0');
+		}
+
+		const response = await axios.put<IServerResponse<IFileUploadResponse>>(`${ServerUrl}/upload`,form,{
+			onUploadProgress(progressEvent) {
+				console.log("Upload progress",progressEvent.progress)
+			},
+		}).then(c => c.data)
 
 		if (response.error !== null) {
 			setUploadState('/beforeUpload');
@@ -518,13 +572,7 @@ export default function Upload() {
 			setUploadedFileInfo(response.data);
 			setUploadState('/uploadSuccess');
 		}
-	}, [
-		filePendingUpload,
-		isPasswordEnabled,
-		password,
-		isExpirationEnabled,
-		expirationTime,
-	]);
+	}, [filePendingUpload, password, expirationTime, maxViews]);
 
 	return (
 		<section id="upload">
@@ -543,12 +591,10 @@ export default function Upload() {
 						startUpload={uploadCurrentFile}
 						setPassword={setPassword}
 						password={password}
-						isPasswordEnabled={isPasswordEnabled}
-						setIsPasswordEnabled={setIsPasswordEnabled}
 						setExpirationTime={setExpirationTime}
 						expirationTime={expirationTime}
-						isExpirationEnabled={isExpirationEnabled}
-						setIsExpirationEnabled={setIsExpirationEnabled}
+						maxViews={maxViews}
+						setMaxViews={setMaxViews}
 					/>
 				)}
 				{uploadState === uploadStates[2] && <UploadingFile />}

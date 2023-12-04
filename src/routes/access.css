@@ -1,17 +1,17 @@
-h1,h2,h3 {
+#access h1,#access h2,#access h3 {
     color: white;
 }
 
-h2 {
+#access h2 {
     margin: 0px;
 }
 
-h3 {
+#access h3 {
     margin: 0px;
     color: #ffffffbd;
 }
 
-span {
+#access span {
     display: flex;
     align-items: center;
     flex-direction: column;
