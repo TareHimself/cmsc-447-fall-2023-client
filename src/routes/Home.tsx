@@ -81,7 +81,7 @@ export default function Home() {
 					// }}
 				>
 					<h1 style={{margin:'70px'}}>Questions and concerns?</h1>
-				<h3 style={{margin:'70px', color:"white"}}>Contact us at xxxxinsertemailxxx@gmail.com</h3>
+				<h3 style={{margin:'70px', color:"white"}}>Contact us at elanglo1@umbc.edu</h3>
 				</section>
 				
 			</div>
