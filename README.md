@@ -1,3 +1,15 @@
+After pulling the client repo, in the cmsc-471-fall-2023-client directory run 'npm install' to ensure local machine has all needed dependencies. Then to start the project run 'npm run start' and it will open in a new browser window.
+
+All upload options work as intended.
+
+Additional features:
+-setting the max views number to 0 overrides and sets the max number of views to infinite
+-the page for entering a password will always appear when downloading a file through the link. if no password was set, then simply pressing the 'access file' button will bypass that page.
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
